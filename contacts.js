@@ -14,6 +14,10 @@ async function getContactById(contactId) {
     (contact) => contact.id === contactId
   );
 
+  if (contacts[contactIndex] === undefined) {
+    return null;
+  }
+
   return contacts[contactIndex];
 }
 
@@ -28,6 +32,8 @@ async function removeContact(contactId) {
   }
   const removedContact = contacts.splice(contactIndex, 1);
 
+  await fs.writeFile(contactsPath, JSON.stringify(contacts));
+
   return removedContact;
 }
 
@@ -35,6 +41,8 @@ async function addContact(name, email, phone) {
   const contacts = JSON.parse(await listContacts());
   const newContact = { name, email, phone, id: nanoid() };
   contacts.push(newContact);
+
+  await fs.writeFile(contactsPath, JSON.stringify(contacts));
 
   return newContact;
 }
