@@ -30,7 +30,7 @@ async function removeContact(contactId) {
   if (contactIndex === -1) {
     return null;
   }
-  const removedContact = contacts.splice(contactIndex, 1);
+  const removedContact = contacts.splice(contactIndex, 1)[0];
 
   await fs.writeFile(contactsPath, JSON.stringify(contacts));
 
